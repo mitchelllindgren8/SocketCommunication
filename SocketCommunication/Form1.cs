@@ -365,6 +365,7 @@ namespace SocketCommunication
                                 }
                             }));
 
+
                             // Reset timer for heartbeat
                             //if (_currentState == "Client")
                             //{
