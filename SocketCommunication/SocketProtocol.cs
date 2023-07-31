@@ -106,7 +106,6 @@ namespace SocketCommunication
             }
             catch (Exception ex)
             {
-                //_listener.Stop();   //Use dispose or remove
                 MessageBox.Show("There was an error when attempting to start the Server", "Connection Error");
             }
         }
