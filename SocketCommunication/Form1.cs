@@ -241,6 +241,7 @@ namespace SocketCommunication
                 {
                     try
                     {
+                        //Delete this code comment as a test
 
                         string previousState = _previousState.ToString();
                         var receive = SocketProtocol.STR.ReadLine();
