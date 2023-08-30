@@ -13,6 +13,7 @@ namespace SocketCommunication
 {
     internal class SocketProtocol
     {
+        
         #region Variables
         // ToDo: Rename variable correctly, using "_" 
         //public static bool _connection;
