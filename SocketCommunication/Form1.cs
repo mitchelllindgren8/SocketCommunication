@@ -244,9 +244,10 @@ namespace SocketCommunication
                         //Delete this code comment as a test
 
                         string previousState = _previousState.ToString();
+
+                        //add try catch continue: if failed.....
                         var receive = SocketProtocol.STR.ReadLine();
 
-                        // ToDo: Is this needed?
                         if (backgroundWorker1.CancellationPending == true)
                         {
                             MessageBox.Show($"BG1 cancel");
@@ -254,7 +255,6 @@ namespace SocketCommunication
                             break;
                         }
 
-                        // ToDo: Is this needed?
                         if (SocketProtocol.ConnectionStatus() == false)
                         {
                             MessageBox.Show($"{_currentState} BG-Work1 inside connection check error triggered.");
@@ -264,18 +264,15 @@ namespace SocketCommunication
                         // Check the received message for edge cases.
                         if (receive == null)
                         {
-                            //MessageBox.Show($"{_currentState} Empty Received");
                             break;
                         }
                         else if (receive == "HeartBeat")
                         {
-                            //MessageBox.Show($"{_currentState} HeartBeat Received");
                             heartBeatReceived = true;
                             break;
                         }
                         else if (receive == disconnectStr)
                         {
-                            //MessageBox.Show($"{_currentState} DisconnectStr Received");
                             Invoke(new Action(() =>
                             {
                                 tbChatArea.AppendText($"{DateTime.Now:hh:mm:ss.fff tt}: Client has disconnected from the Server.\r\n");
@@ -283,7 +280,7 @@ namespace SocketCommunication
 
                             clientDisconnectToken = true;
                             break;
-                        }   // no else needed
+                        }
 
                         this.tbChatArea.Invoke(new MethodInvoker(delegate ()
                         {
@@ -324,7 +321,7 @@ namespace SocketCommunication
                     btnConnectStart.Enabled = true;
                     btnSend.Enabled = false;
                     panelConnection.FillColor = Color.Red;
-                    tbChatArea.AppendText($"{DateTime.Now:hh:mm:ss.fff tt}: Server has Soft disconnected.\r\n" +
+                    tbChatArea.AppendText($"{DateTime.Now:hh:mm:ss.fff tt}: Server has soft disconnected.\r\n" +
                         "****************************************************************\r\n");
                 }));
             }
@@ -340,17 +337,14 @@ namespace SocketCommunication
                     string currentState = _currentState.ToString();
                     SocketProtocol.STW.WriteLine(_TextToSend);
 
-                    //ToDo: Is this needed?
                     if (SocketProtocol.ConnectionStatus() == false)
                     {
                         MessageBox.Show($"{_currentState} BG-Work2 inside connection check error triggered.");
                     } 
                     else
                     {
-                        //ToDo: Is this needed?
-                        if (backgroundWorker2.CancellationPending == true)  // Remove ??
+                        if (backgroundWorker2.CancellationPending == true)
                         {
-                            //e.Cancel = true;
                             tbChatArea.AppendText("INSIDE HEREREERE\r\n");
                         }
                         else
@@ -408,7 +402,7 @@ namespace SocketCommunication
 
                 if (_currentState == "Server")
                 {
-                    // Add code ???
+                    // Add code for server handling heartbeat
                 }
                 else
                 {
@@ -431,17 +425,15 @@ namespace SocketCommunication
             }
         }
         
+        //private void startHeartbeatTimer()
+        //{
 
+        //}
 
-        private void startHeartbeatTimer()
-        {
+        //private void endHeartbeatTimer()
+        //{
 
-        }
-
-        private void endHeartbeatTimer()
-        {
-
-        }
+        //}
         #endregion
 
         #endregion
@@ -488,13 +480,18 @@ namespace SocketCommunication
             btnDisconnectFunc();
         }
 
-        // ToDo: Can this be moved into btnDisconnect_Click ???
         private void btnDisconnectFunc()
         {
             if (_currentState == "Server")
             {
                 if (MessageBox.Show("Are you sure you want to stop the Server from listening? \tThis will restart the appliction.", "Exiting Server", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {
+
+                    //backgroundWorker1.CancelAsync();
+                    //backgroundWorker2.CancelAsync();
+                    //SocketProtocol.STR.Close();
+                    //SocketProtocol.STW.Close();
+
                     SocketProtocol.DisconnectServer(true);  // Server-Hard-Disconnect
                     btnConnectStart.Enabled = true;
                     btnSend.Enabled = false;

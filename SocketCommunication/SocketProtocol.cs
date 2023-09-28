@@ -17,24 +17,12 @@ namespace SocketCommunication
         
         #region Variables
         // ToDo: Rename variable correctly, using "_" 
-        //public static bool _connection;
         public static TcpClient _client = null;
         public static TcpListener _listener = null;
         public static StreamReader STR;
         public static StreamWriter STW;
-        //public static TextBox tbTempMessage= new TextBox();
-        //public static string _currentState;
-        //public static string _previousState;
-
-        //public static string _receive;
-        //public static string _TextToSend;
-
-        //public const string disconnectStr = "****";
-
-        //Delete ???
         public string ipAddressStr;
         public int portNum;
-
         #endregion
 
         #region Constructor
@@ -92,16 +80,9 @@ namespace SocketCommunication
         {
             try
             {
-                _listener = new TcpListener(IPAddress.Any, Convert.ToInt32(port));  //_listener = new TcpListener(ipAddress, Convert.ToInt32(port));
+                _listener = new TcpListener(IPAddress.Any, Convert.ToInt32(port));
                 _listener.Start();
-
-                //------
                 _client = _listener.AcceptTcpClient();
-                //_client = _listener.AcceptTcpClientAsync();
-                //_client = _listener.Pending();
-                //_listener.AcceptTcpClient();  TEST THIS WHEN POSSIBLE 
-                //------
-
                 STR = new StreamReader(_client.GetStream());
                 STW = new StreamWriter(_client.GetStream());
                 STW.AutoFlush = true;
@@ -132,6 +113,7 @@ namespace SocketCommunication
         #endregion
 
         #region Check TCP-Connection
+
         // ConnectionStatus between the Listener and Client
         public static bool ConnectionStatus()
         {
@@ -145,7 +127,7 @@ namespace SocketCommunication
 
             try
             {
-                // Are we resetting the Server-Side Application, if not just reset the Background-Workers and Listener
+                // Are we resetting the Server-Side Application? if not just reset the Background-Workers and Listener
                 if(serverHardDisconnect == true)
                 {
                     // Restart logic
@@ -154,7 +136,9 @@ namespace SocketCommunication
                 }
 
                 //_connection = false;
-                _client.Close();
+                if(_client != null) {
+                    _client.Close();
+                }
 
             }
             catch(Exception ex) 
